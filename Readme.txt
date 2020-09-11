@@ -5,7 +5,7 @@
 ***************************** *********************************/
  
  
- Proyect : Created with Spring Bot , Maven  3.6.3 , Jdk Java 1.8 
+ Proyect : Created with Spring Bot , Maven  3.6.3 , Jdk Java 1.8 , ThymeLeaf Library , Jquery, DataTables plugin Jquery
  
  Instrutions 
  
