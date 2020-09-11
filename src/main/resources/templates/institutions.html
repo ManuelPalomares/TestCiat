@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+</head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+
+
+	<script type="text/javascript" th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
+
+	<link th:href="@{/bootstrap-4.5.2-dist/css/bootstrap.min.css}" 	rel="stylesheet">
+	<script type="text/javascript" th:src="@{/bootstrap-4.5.2-dist/js/bootstrap.min.js}"></script>
+
+
+	<link rel="stylesheet" type="text/css" 	th:href="@{/DataTables/datatables.min.css}" />
+	<script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+
+
+<style>
+.navbar-custom {
+	background-color: #0c7ca6;
+}
+
+.navbar-custom .navbar-brand, .navbar-custom .navbar-text {
+	color: white;
+}
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+		$('#tableInstitutions').DataTable({
+    		 "scrollY":        "500px",
+         	"scrollCollapse": true,
+         	"paging":         true
+         });
+});
+
+</script>
+</head>
+
+<body>
+	<!-- Just an image -->
+	<nav class="navbar navbar-light bg-white">
+		<a class="navbar-brand" href="#"> <img
+			th:src="@{/images/logo.png}" width="300" height="100" alt=""
+			loading="lazy">
+		</a>
+	</nav>
+
+	<nav class="navbar navbar-expand-lg navbar-light navbar-custom ">
+		<a class="navbar-brand" href="#">Institutions</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	</nav>
+
+<div class="container"  >
+	<table id="tableInstitutions" class="display" style="width:90%">
+		<thead>
+		<tr>
+			<th>ID</th>
+			<th>Acronym</th>
+			<th>Name</th>
+			<th>Type</th>
+		</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="institution : ${listInstitutions}">
+    		<tr>
+        		<td th:text="${institution.id}"></td>
+        		<td th:text="${institution.acronym}"></td>
+        		<td>
+        			<p class="font-weight-bold">
+        			<a  th:href="@{/editinstitutions/} + ${institution.id}" th:text="${institution.name}"></a>
+        			</p>
+
+					<div>      		
+	        			<th:block th:each="location : ${institution.locations}">
+	        			<img th:src="@{https://www.countryflags.io/}+${location.country.isoAlpha2}+@{/shiny/64.png}">
+	        			
+	        			</th:block>
+        			</div>	
+        		</td>
+        		<td th:text="${institution.type !=null} ?  ${institution.type.name}" ></td>
+			</tr>
+			</th:block>
+		</tbody>
+		<tfoot>
+            <tr>
+            		<th>ID</th>
+					<th>Acronym</th>
+					<th>Name</th>
+					<th>Type</th>
+            </tr>
+        </tfoot>
+	</table>
+</div>
+
+</body>
+
+</html>

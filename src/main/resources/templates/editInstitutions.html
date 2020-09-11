@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+</head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+
+
+	<script type="text/javascript" th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
+
+	<link th:href="@{/bootstrap-4.5.2-dist/css/bootstrap.min.css}" 	rel="stylesheet">
+	<script type="text/javascript" th:src="@{/bootstrap-4.5.2-dist/js/bootstrap.min.js}"></script>
+
+
+	<link rel="stylesheet" type="text/css" 	th:href="@{/DataTables/datatables.min.css}" />
+	<script type="text/javascript" th:src="@{/DataTables/datatables.min.js}"></script>
+	
+	<link rel="stylesheet" type="text/css" 	th:href="@{/css/style.css}" />
+
+
+<style>
+.navbar-custom {
+	background-color: #0c7ca6;
+}
+
+.navbar-custom .navbar-brand, .navbar-custom .navbar-text {
+	color: white;
+}
+</style>
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+	  var form = $('#formInstLoca');
+	  
+		form.on('submit',function(e){
+			e.preventDefault();
+			$.ajax({
+			      url: form.attr('action'),
+			      type: 'post',
+			      data: form.serialize(),
+			      success: function(response) {
+			        // if the response contains any errors, replace the form
+			        if ($(response).find('.has-error').length) {
+			          $form.replaceWith(response);
+			        } else {
+			        	window.location.href = "/editinstitutions/"+$("#x_institutionload").val();
+			        }
+			      }
+			  });
+			
+		});
+		
+		
+		$("#x_institution").val($("#x_institutionload").val());
+		
+});
+	
+</script>
+</head>
+
+<body>
+	
+	<nav class="navbar navbar-light bg-white">
+		<a class="navbar-brand" href="#"> <img
+			th:src="@{/images/logo.png}" width="300" height="100" alt=""
+			loading="lazy">
+		</a>
+	</nav>
+
+	<nav class="navbar navbar-expand-lg navbar-light navbar-custom ">
+		<a class="navbar-brand" href="/institutions">Institutions</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	</nav>
+
+	<div class="container">
+	<div class="container" style="margin:20pt;">
+		<form action="#" th:action="@{/institutionsave}" th:object="${institution}" method="post">
+			<input  id="x_institutionload" type="hidden" name="id" th:field="*{id}" />
+			<div class="row">
+				<div class="col">
+					<h2>General Information</h2>
+					<hr>
+					
+				</div>
+			</div>
+			<div class="row">
+    			<div class="col">
+    				<label for="x_acronym">Acronym: <spam style="color:red">*</spam></label>
+      				<input type="text" class="form-control" id="x_acronym" placeholder="Acronym XXX" required=required size="45" th:field="*{acronym}" />
+    			</div>
+    			<div class="col">
+    				<label for="x_acronym">Name: <spam style="color:red">*</spam></label>
+      				<input type="text" class="form-control" id="x_name" placeholder="Name" required=required th:field="*{name}" />
+    			</div>
+
+  			</div>
+  			<div class="row">
+  			<div class="col">
+  					<div class="w-25">
+	    				<label for="x_type">Type: <spam style="color:red">*</spam></label>
+	      				<select class="form-control" id="x_type" witdh="100px"  th:field="*{institutionTypeId}">
+		      				<option th:value="-1">Select Type</option>
+		      				<option th:each="types : ${listTypes}"  th:value="${types.id}" th:text="${types.name}"></option>		
+	      				</select>
+      				</div>
+    			</div>
+  			</div>
+  			
+  			<div class="row">
+  			<div class="col">
+  					<div >
+	    				<label for="x_type">Website: </label>
+	      				<input type="text" class="form-control" id="x_website" placeholder="Https://example.com"  th:field="*{websiteLink}" />	
+      				</div>
+    			</div>
+  			</div>
+  			
+  			
+  			<div class="row">
+  				<div class="col" >
+  				<input type="submit" class="btn btn-primary pull-right" value="Save" />
+  				</div>
+  			</div>
+			
+		
+		</form>
+		
+		<div class="row">
+				<div class="col">
+					<h2>Locations</h2>
+					<hr>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="col">
+					<p>Country(ies)</p>
+					
+					<div class="container">
+						<th:block  th:each="location: ${locationslist}" >
+        					<div class="x_divLocations">
+        						<div class="x_divlocationsText"><spam th:text="${location.country.name}"></spam></div>
+        						<div class="x_divLocationsDelete"><a href="#" style="color:white;    font-family: Verdana;text-decoration: none;">x</a></div>
+        					</div>
+        				</th:block>
+					</div>
+				</div>
+			</div>
+			<form id="formInstLoca" th:action="@{/institutionsLocationSave}" th:object="${institutionlocato}" method="post">
+				<div class="row">
+					<input type="hidden" id="x_institution" name="idInstitution" value="" th:field="*{idInstitution}" >
+					<div class="col">
+					
+							<select class="form-control" id="x_type" witdh="100px" th:field="*{idLocElement}">
+				      				<option th:value="-1">Select Country</option>
+				      				<option th:each="country : ${countrysList}" th:value="${country.id}" th:text="${country.name}"></option>		
+			      			</select>
+			      				
+					</div>
+					<div class="col">
+					
+						<input id="city"  class="form-control" type="text" th:field="*{city}" required="required" />
+					</div>
+					<div class="col">
+						<input type="submit" class="btn btn-secondary" value="Add Institution Location">
+					</div>
+				</div>
+			</form>
+	</div>
+	</div>
+</body>
+
+</html>

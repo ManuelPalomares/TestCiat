@@ -1,0 +1,25 @@
+
+.x_divLocations {
+border: 2pt solid #80808075;
+    border-style: dashed;
+    width: 200px;
+    padding: 10px;
+    background: #d3d3d366;
+
+    display: table-cell;
+}
+.x_divlocationsText{
+	float: left;
+}
+
+.x_divLocationsDelete{
+	width: 23px;
+    height: 25px;
+    background: #ff000069;
+    text-align: center;
+    /* padding: initial; */
+    float: right;
+    border-radius: 4px;
+    margin: -10;
+    top: -10;
+}
